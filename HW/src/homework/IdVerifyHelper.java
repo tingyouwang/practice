@@ -38,18 +38,11 @@ public class IdVerifyHelper {
         File idlist = new File(filePath);
         BufferedReader br = new BufferedReader(new FileReader(idlist));
         String eachID;
+
         while ((eachID=br.readLine())!=null){
-            System.out.println("eachID:"+eachID);
-            //先驗證身分證格式
-//            System.out.println("aaa:"+eachID.matches("/^.[A-Z][0-9]{9}.$/"));
-//            System.out.println("aaa:"+eachID.matches(".*[A-Z][0-9]{9}.*"));
-//            if(!(eachID.matches(".*[A-Z][0-9]{9}.*"))){
-//                System.out.println("====您輸入的身分證字號"+eachID+"====");
-//                System.out.println("====驗證失敗====");
-//                break;
-//            }
+//            System.out.println("eachID:"+eachID);
 
-
+            //取得第一個英文字母後，將英文字轉成數字
             char cc =eachID.charAt(0);
             Character c = (Character)cc;
             String firstEng= c.toString(); //取得第一個英文字母
@@ -74,15 +67,6 @@ public class IdVerifyHelper {
                 System.out.println("====驗證失敗====");
             }
 
-
-
-
-
-
-////            Integer id11Digit_Integer = Integer.valueOf(id11Digit);
-//            //取得一個陣列存放 11純數字身分證
-//            IdVerifyHelper helper =new IdVerifyHelper();
-//            int[] idArray =helper.id11DigitArray(id11Digit_Integer);
 
         }
 
