@@ -1,12 +1,15 @@
 package homework;
 
+import homework.model.VerifyResult;
+
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class IdVerifyHelper {
 
-    public boolean checkId(int[] idArray){
+    public boolean checkId(int[] idArray) {
         int num1 = idArray[0]*1;
         int num2 = idArray[1]*9;
         int num3 = idArray[2]*8;
@@ -22,16 +25,62 @@ public class IdVerifyHelper {
         int mod = sum % 10;
         if(mod != 0 ){
             int lastNum= 10-mod;
+
             if(idArray[10]==lastNum) return true;
             else return false;
         }else{
             if(idArray[10]==0) return true;
             else return false;
         }
-
     }
 
+    public  IdVerifyHelper(String filename) {
+    }
 
+    public List<VerifyResult> validate(String filename) throws IOException {
+//        String filePath = "D:\\workspace\\workspace3\\practice\\HW\\idList.txt";
+        List<VerifyResult> resultList = new ArrayList<>();
+        File idlist = new File(filename);
+        BufferedReader br = new BufferedReader(new FileReader(idlist));
+        String eachID;
+
+        while ((eachID=br.readLine())!=null){
+//            System.out.println("eachID:"+eachID);
+
+            //取得第一個英文字母後，將英文字轉成數字
+            char cc =eachID.charAt(0);
+            Character c = (Character)cc;
+            String firstEng= c.toString(); //取得第一個英文字母
+            EnglishPositon ep = new EnglishPositon();
+            String id11Digit = ep.idNum11digit(eachID,ep.engToNum(firstEng));
+
+            //取得一個陣列存放 11純數字身分證
+            int[] idArray = new int[11];
+            for(int i = 0;i<id11Digit.length();i++){
+                char c1 = id11Digit.charAt(i);
+                idArray[i] = Character.getNumericValue(c1);
+            }
+            //開始處理計算公式
+            IdVerifyHelper helper =new IdVerifyHelper(filename);
+            boolean bo= helper.checkId(idArray);
+//            System.out.println("結果:"+bo);
+            VerifyResult result= new VerifyResult();
+            if (bo && (eachID.matches(".*[A-Z][0-9]{9}.*"))){
+                result.setId(eachID);
+                result.setVerifySuccess(true);
+                result.setMessage("驗證成功");
+                resultList.add(result);
+            }else{
+                result.setId(eachID);
+                result.setVerifySuccess(false);
+                result.setMessage("驗證失敗");
+                resultList.add(result);
+            }
+
+        }
+
+        return resultList;
+    }
 
     public static void main(String[] args) throws IOException {
         String filePath = "D:\\workspace\\workspace3\\practice\\HW\\idList.txt";
@@ -56,7 +105,7 @@ public class IdVerifyHelper {
                 idArray[i] = Character.getNumericValue(c1);
             }
             //開始處理計算公式
-            IdVerifyHelper helper =new IdVerifyHelper();
+            IdVerifyHelper helper =new IdVerifyHelper("D:\\workspace\\workspace3\\practice\\HW\\idList.txt");
             boolean bo= helper.checkId(idArray);
 //            System.out.println("結果:"+bo);
             if (bo && (eachID.matches(".*[A-Z][0-9]{9}.*"))){
@@ -66,9 +115,7 @@ public class IdVerifyHelper {
                 System.out.println("====您輸入的身分證字號:"+eachID+"====");
                 System.out.println("====驗證失敗====");
             }
-
-
         }
-
     }
+
 }
