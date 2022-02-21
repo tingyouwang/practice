@@ -89,32 +89,45 @@ public class IdVerifyHelper {
         String eachID;
 
         while ((eachID=br.readLine())!=null){
-//            System.out.println("eachID:"+eachID);
 
-            //取得第一個英文字母後，將英文字轉成數字
-            char cc =eachID.charAt(0);
-            Character c = (Character)cc;
-            String firstEng= c.toString(); //取得第一個英文字母
-            EnglishPositon ep = new EnglishPositon();
-            String id11Digit = ep.idNum11digit(eachID,ep.engToNum(firstEng));
-
-            //取得一個陣列存放 11純數字身分證
-            int[] idArray = new int[11];
-            for(int i = 0;i<id11Digit.length();i++){
-                char c1 = id11Digit.charAt(i);
-                idArray[i] = Character.getNumericValue(c1);
-            }
-            //開始處理計算公式
-            IdVerifyHelper helper =new IdVerifyHelper("D:\\workspace\\workspace3\\practice\\HW\\idList.txt");
-            boolean bo= helper.checkId(idArray);
-//            System.out.println("結果:"+bo);
-            if (bo && (eachID.matches(".*[A-Z][0-9]{9}.*"))){
-                System.out.println("====您輸入的身分證字號:"+eachID+"====");
-                System.out.println("====驗證成功====");
+//            System.out.println("eachID:"+eachID)
+            VerifyResult result= new VerifyResult();
+            //先處理商業規則後，再進行內政部身分證規則檢查，因須將英文字母轉乘數字才有辦法驗證
+            boolean b1 = eachID.matches("[A-Z|a-z]{1,}[0-9]{0,}");
+            if(!eachID.matches("[A-Z|a-z]{1,}[0-9]{0,}")){
+                result.setId(eachID);
+                result.setVerifySuccess(false);
+                result.setMessage("證號格式錯誤*");
             }else{
-                System.out.println("====您輸入的身分證字號:"+eachID+"====");
-                System.out.println("====驗證失敗====");
+                //開始驗證內政部規則，取得第一個英文字母後，將英文字轉成數字
+                char cc =eachID.charAt(0);
+                Character c = (Character)cc;
+                String firstEng= c.toString(); //取得第一個英文字母
+                EnglishPositon ep = new EnglishPositon();
+                String id11Digit = ep.idNum11digit(eachID,ep.engToNum(firstEng));
+
+                //取得一個陣列存放 11純數字身分證
+                int[] idArray = new int[11];
+                for(int i = 0;i<id11Digit.length();i++){
+                    char c1 = id11Digit.charAt(i);
+                    idArray[i] = Character.getNumericValue(c1);
+                }
+                //開始處理計算公式
+                IdVerifyHelper helper =new IdVerifyHelper(filePath);
+                boolean bo= helper.checkId(idArray);
+//            System.out.println("結果:"+bo);
+                if(bo){
+                    result.setId(eachID);
+                    result.setVerifySuccess(true);
+                    result.setMessage("驗證成功");
+
+                }else{
+                    result.setId(eachID);
+                    result.setVerifySuccess(false);
+                    result.setMessage("驗證失敗，內政部格式錯誤");
+                }
             }
+
         }
     }
 

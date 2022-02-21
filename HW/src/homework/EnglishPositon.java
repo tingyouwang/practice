@@ -31,6 +31,32 @@ public class EnglishPositon {
         hm.put("X", "30");
         hm.put("Y", "31");
         hm.put("Z", "33");
+        hm.put("a", "10");
+        hm.put("b", "11");
+        hm.put("c", "12");
+        hm.put("d", "13");
+        hm.put("e", "14");
+        hm.put("f", "15");
+        hm.put("g", "16");
+        hm.put("h", "17");
+        hm.put("i", "34");
+        hm.put("j", "18");
+        hm.put("k", "19");
+        hm.put("l", "20");
+        hm.put("m", "21");
+        hm.put("n", "22");
+        hm.put("o", "35");
+        hm.put("p", "23");
+        hm.put("q", "24");
+        hm.put("r", "25");
+        hm.put("s", "26");
+        hm.put("t", "27");
+        hm.put("u", "28");
+        hm.put("v", "29");
+        hm.put("w", "32");
+        hm.put("x", "30");
+        hm.put("y", "31");
+        hm.put("z", "33");
         return hm.get(key);
     }
 
