@@ -41,12 +41,13 @@ public class IdVerifyHelper {
         while ((eachID=br.readLine())!=null){
             System.out.println("eachID:"+eachID);
             //先驗證身分證格式
-            System.out.println("aaa:"+eachID.matches("/^[A-Z][0-9]{9}$/"));
-            if(!(eachID.matches("/^[A-Z][0-9]{9}$/"))){
-                System.out.println("====您輸入的身分證字號"+eachID+"====");
-                System.out.println("====驗證失敗====");
-                break;
-            }
+//            System.out.println("aaa:"+eachID.matches("/^.[A-Z][0-9]{9}.$/"));
+//            System.out.println("aaa:"+eachID.matches(".*[A-Z][0-9]{9}.*"));
+//            if(!(eachID.matches(".*[A-Z][0-9]{9}.*"))){
+//                System.out.println("====您輸入的身分證字號"+eachID+"====");
+//                System.out.println("====驗證失敗====");
+//                break;
+//            }
 
 
             char cc =eachID.charAt(0);
@@ -64,7 +65,16 @@ public class IdVerifyHelper {
             //開始處理計算公式
             IdVerifyHelper helper =new IdVerifyHelper();
             boolean bo= helper.checkId(idArray);
-            System.out.println("結果:"+bo);
+//            System.out.println("結果:"+bo);
+            if (bo && (eachID.matches(".*[A-Z][0-9]{9}.*"))){
+                System.out.println("====您輸入的身分證字號:"+eachID+"====");
+                System.out.println("====驗證成功====");
+            }else{
+                System.out.println("====您輸入的身分證字號:"+eachID+"====");
+                System.out.println("====驗證失敗====");
+            }
+
+
 
 
 

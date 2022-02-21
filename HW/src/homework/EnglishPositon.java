@@ -45,7 +45,7 @@ public class EnglishPositon {
 //            eachNumC.toString()
             sb.append(eachNumC.toString());
         }
-        System.out.println("純數字身分證id"+sb.toString());
+//        System.out.println("純數字身分證id"+sb.toString());
         return sb.toString();
     }
 
